@@ -1,1 +1,1 @@
-[question]([url](https://zku.gnomio.com/mod/assign/view.php?id=119))
+[question](https://zku.gnomio.com/mod/assign/view.php?id=119)
