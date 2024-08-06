@@ -13,6 +13,32 @@ In this question, we will visit the different types of hashes available in Circo
 1. Based on the resources we provide you as well as any additional research you have done, compare the four hashes and provide explanations in four different aspects: gas cost, capacity, proof generation efficiency, and proof size. It's ok if you cannot find reference for all four aspects, just do the best you can.
 
 
+> 1. Gas Cost
+SHA-256: High gas cost due to its computational intensity.
+Keccak-256: Lower gas cost compared to SHA-256; optimized for Ethereum (ETH 2.0).
+Poseidon: Designed for zk-SNARKs and zk-STARKs, offering lower gas costs compared to SHA-256 and Keccak-256.
+Pedersen: Often used in ZKPs for its lower gas cost and better integration with elliptic curve operations.
+> 2. Capacity
+SHA-256: 256-bit output, highly secure, and widely used in various applications.
+Keccak-256: 256-bit output, chosen for Ethereum’s proof-of-stake due to its security and efficiency.
+Poseidon: Variable capacity but optimized for ZKPs, balancing between performance and security.
+Pedersen: 256-bit output, especially efficient in contexts requiring elliptic curve cryptography.
+> 3. Proof Generation Efficiency
+SHA-256: Less efficient in proof generation for ZKPs due to higher computational demands.
+Keccak-256: More efficient than SHA-256, optimized for Ethereum, but not the most efficient for ZKPs.
+Poseidon: Highly efficient for ZKPs, designed to reduce proof generation time.
+Pedersen: Efficient for ZKPs, particularly when used in conjunction with elliptic curve operations.
+> 4. Proof Size
+SHA-256: Larger proof sizes due to higher computational complexity.
+Keccak-256: Moderate proof sizes, better than SHA-256 but not optimized for minimal proof size.
+Poseidon: Smaller proof sizes due to optimization for ZKPs.
+Pedersen: Relatively small proof sizes, especially when used within elliptic curve contexts.
+> Summary
+SHA-256: High gas cost, secure, less efficient for ZKPs, larger proof sizes.
+Keccak-256: Moderate gas cost, efficient for Ethereum, moderate proof sizes.
+Poseidon: Low gas cost, optimized for ZKPs, highly efficient, small proof sizes.
+Pedersen: Low gas cost, efficient for elliptic curve contexts, small proof sizes.
+
 2. Let’s build a binary Merkle tree template in Circom and some relevant templates for leaf verification. We will use the Poseidon hash for this assignment.
 
     1. Fork the week2 repo and initialize all submodules. Enter the Part1 directory and install all dependencies. In circuits/MerkleTree.circom, complete the code for the following templates (feel free to add any helper templates for intermediate components and it’s ok to reference existing repos as long as their licenses permit):
