@@ -10,6 +10,8 @@ Fork the above repo onto your own Github and run `git submodule update --init --
 
 In this question, we will visit the different types of hashes available in Circom (and Solidity) and grow some Merkle trees!
 
+# ans by GPT
+
 1. Based on the resources we provide you as well as any additional research you have done, compare the four hashes and provide explanations in four different aspects: gas cost, capacity, proof generation efficiency, and proof size. It's ok if you cannot find reference for all four aspects, just do the best you can.
 
 
@@ -33,7 +35,7 @@ SHA-256: Larger proof sizes due to higher computational complexity.
 Keccak-256: Moderate proof sizes, better than SHA-256 but not optimized for minimal proof size.
 Poseidon: Smaller proof sizes due to optimization for ZKPs.
 Pedersen: Relatively small proof sizes, especially when used within elliptic curve contexts.
-> Summary
+> 5. Summary
 SHA-256: High gas cost, secure, less efficient for ZKPs, larger proof sizes.
 Keccak-256: Moderate gas cost, efficient for Ethereum, moderate proof sizes.
 Poseidon: Low gas cost, optimized for ZKPs, highly efficient, small proof sizes.
