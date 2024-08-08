@@ -17,17 +17,12 @@ template CheckRoot(n) { // compute the root of a MerkleTree of n Levels
         hashes[i].inputs[0] <== leaves[i];
     }
 
-
-    //calculate hash value of each level
-    var offset = 2**n;
-    for (var l=n-1;l>=0;l--) {
-        for (var i=0;i<2**l;i++) {
-            hashes[offset+i]=Poseidon(2);
-            hashes[offset+i].inputs[0] <== hashes[2*(offset+i)-total_node-1].out;
-            hashes[offset+i].inputs[1] <== hashes[2*(offset+i)-total_node].out;
+    //calculate hash value of internal node
+    for (var i=2**n;i<total_node;i++){
+            hashes[i]=Poseidon(2);
+            hashes[i].inputs[0] <== hashes[2*i-total_node-1].out;
+            hashes[i].inputs[1] <== hashes[2*i-total_node].out;
         }
-        offset+=2**l;
-    }
 
     root<==hashes[total_node-1].out;
 
@@ -40,7 +35,6 @@ template MerkleTreeInclusionProof(n) {
     signal output root; // note that this is an OUTPUT signal
 
     //[assignment] insert your code here to compute the root from a leaf and elements along the path
-    
     component poseidons[n];
     component mux[n];
     signal hashes[n+1];
@@ -52,6 +46,8 @@ template MerkleTreeInclusionProof(n) {
         path_index[i] * (1 - path_index[i]) === 0;
 
         poseidons[i] = Poseidon(2);
+
+        //decide where the node is on left or right, the order of Poseidon hash matters
         mux[i] = MultiMux1(2);
 
         mux[i].c[0][0] <== hashes[i];

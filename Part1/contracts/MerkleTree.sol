@@ -9,12 +9,25 @@ contract MerkleTree is Groth16Verifier {
     uint256 public index = 0; // the current index of the first unfilled leaf
     uint256 public root; // the current Merkle root
 
+    /*
+    =====relation between father node and child node=====
+    the bottom left node start from 0
+
+    father: f
+    child: c
+    childleft: c1
+    childright: c2
+    number of total node: T
+
+    f=(T+c+1)/2
+    c1=2f-T-1
+    c2=2f-T
+    */
+
     constructor() {
         // [assignment] initialize a Merkle tree of 8 with blank leaves
         uint num_leaves = 8;
-        uint level=3; // log8=3
         uint total_node=2**(3+1)-1;
-
         hashes= new uint256[](total_node);
         
         // init leave hash
@@ -22,17 +35,7 @@ contract MerkleTree is Groth16Verifier {
             hashes[i]=0;
         }
 
-        // internode
-        /*
-        uint offset=num_leaves;
-        for (uint ll=1;ll<level;ll++){
-            uint l=level-ll;
-            for (uint i=0;i<2**l;++i){
-                hashes[offset+i]=PoseidonT3.poseidon([hashes[2*(offset+i)-total_node-1],hashes[2*(offset+i)-total_node]]);
-            }
-            offset+=2**l;
-        }*/
-
+        //calculate hash value of internal node
         for (uint i=num_leaves;i<total_node;i++){
             hashes[i]=PoseidonT3.poseidon([hashes[2*i-total_node-1],hashes[2*i-total_node]]);
         }
@@ -43,16 +46,17 @@ contract MerkleTree is Groth16Verifier {
 
     function insertLeaf(uint256 hashedLeaf) public returns (uint256) {
         // [assignment] insert a hashed leaf into the Merkle tree
-        // f=(total_node+c+1)//2
         require(index < 8, "Merkle tree is full");
 
         hashes[index]=hashedLeaf;
-        
-        uint level=3; // log8=3
         uint total_node=2**(3+1)-1;
         uint current_index=index;
+
+        //update each node on the path to the root
         do{
+            //find father node
             current_index=(total_node+current_index+1)/2;
+            
             hashes[current_index]=PoseidonT3.poseidon([hashes[2*current_index-total_node-1],hashes[2*current_index-total_node]]);
         }while(current_index<total_node-1);
 
