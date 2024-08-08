@@ -8,26 +8,28 @@ template CheckRoot(n) { // compute the root of a MerkleTree of n Levels
     signal output root;
 
     //[assignment] insert your code here to calculate the Merkle root from 2^n leaves
-
-    component hashers[2**(n+1)-1];
+    var total_node=2**(n+1)-1;
+    component hashes[total_node];
 
     //init leaf hash values
-    for (var i=2**n-1;i<2**n+2**n-1;i++) {
-        hashers[i]=Poseidon(1);
-        hashers[i].inputs[0] <== leaves[i];
+    for (var i=0;i<2**n;i++) {
+        hashes[i]=Poseidon(1);
+        hashes[i].inputs[0] <== leaves[i];
     }
 
 
     //calculate hash value of each level
+    var offset = 2**n;
     for (var l=n-1;l>=0;l--) {
-        for (var i=2**l-1;i<2**l+2**l-1;i++) {
-            hashers[i]=Poseidon(2);
-            hashers[i].inputs[0] <== hashers[i*2+1].out;
-            hashers[i].inputs[1] <== hashers[i*2+2].out;
+        for (var i=0;i<2**l;i++) {
+            hashes[offset+i]=Poseidon(2);
+            hashes[offset+i].inputs[0] <== hashes[2*(offset+i)-total_node-1].out;
+            hashes[offset+i].inputs[1] <== hashes[2*(offset+i)-total_node].out;
         }
+        offset+=2**l;
     }
 
-    root<==hashers[0].out;
+    root<==hashes[total_node-1].out;
 
 }
 
@@ -41,8 +43,8 @@ template MerkleTreeInclusionProof(n) {
     
     component poseidons[n];
     component mux[n];
-    signal hashers[n+1];
-    hashers[0] <== leaf;
+    signal hashes[n+1];
+    hashes[0] <== leaf;
 
     
     for (var i = 0; i < n; i++) {
@@ -52,19 +54,19 @@ template MerkleTreeInclusionProof(n) {
         poseidons[i] = Poseidon(2);
         mux[i] = MultiMux1(2);
 
-        mux[i].c[0][0] <== hashers[i];
+        mux[i].c[0][0] <== hashes[i];
         mux[i].c[0][1] <== path_elements[i];
 
         mux[i].c[1][0] <== path_elements[i];
-        mux[i].c[1][1] <== hashers[i];
+        mux[i].c[1][1] <== hashes[i];
 
         mux[i].s <== path_index[i];
 
         poseidons[i].inputs[0] <== mux[i].out[0];
         poseidons[i].inputs[1] <== mux[i].out[1];
 
-        hashers[i+1] <== poseidons[i].out;
+        hashes[i+1] <== poseidons[i].out;
     }
 
-    root <== hashers[n];
+    root <== hashes[n];
 }
