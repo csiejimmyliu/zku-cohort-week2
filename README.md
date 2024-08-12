@@ -72,9 +72,51 @@ clarification 2: the indexing convention of the hashes array is from bottom to t
 
 1. How is Tornado Cash Nova different from Tornado Cash Classic? What are the key upgrades/improvements and what changes in the technical design make these possible?
 
-2. What is the role of the relayers in the Tornado Cash protocols? Why are relayers needed?
+   Ans by GPT:
+   Key Differences Between Tornado Cash Nova and Tornado Cash Classic
+    Type of Asset Support:
+    
+    Tornado Cash Classic: Supports only a fixed set of tokens and Ether (ETH) with pre-defined deposit and withdrawal amounts. Users have to deposit and withdraw exactly the same amounts, which can limit usability and flexibility.
+    Tornado Cash Nova: Supports arbitrary amounts of ERC-20 tokens and ETH, providing much more flexibility. Users can deposit and withdraw varying amounts, making the system more versatile and practical for real-world usage.
+    Enhanced Privacy:
+    
+    Tornado Cash Classic: Users must withdraw exactly the same amount as they deposited, making it easier for on-chain observers to link deposits and withdrawals based on timing and amounts.
+    Tornado Cash Nova: Uses a system of "shielded" transfers and withdrawals, where users can deposit an arbitrary amount, transfer assets within the shielded pool, and then withdraw any amount. This makes it significantly harder for an observer to link deposits and withdrawals, enhancing privacy.
+    Savings Pool:
+    
+    Tornado Cash Classic: Does not have a mechanism to keep assets in a private state after withdrawal, meaning that once withdrawn, the privacy benefits are reduced.
+    Tornado Cash Nova: Introduces a "Savings Pool" mechanism where users can keep their assets within a shielded, private state even after withdrawal. Users can withdraw in smaller amounts or transfer funds to other users without revealing their identity or transaction history.
+    L2 Integration:
+    
+    Tornado Cash Classic: Operates solely on Ethereum's Layer 1, which can result in high gas fees during periods of network congestion.
+    Tornado Cash Nova: Integrates with Layer 2 solutions, particularly with zk-rollups. This allows for cheaper transactions and faster processing while still benefiting from the privacy features of the system.
+    User Experience:
+    
+    Tornado Cash Classic: Requires users to manually track and manage their anonymity sets, which can be complex for average users.
+    Tornado Cash Nova: Improves user experience by automating many of the processes involved in maintaining privacy. It also provides a more seamless experience when interacting with the shielded pool and making transfers.
+    Technical Design Enhancements
+    Arbitrary Deposit and Withdrawal Amounts:
+    
+    Tornado Cash Nova uses zk-SNARKs (Zero-Knowledge Succinct Non-Interactive Arguments of Knowledge) in a more sophisticated way to allow for arbitrary deposit and withdrawal amounts. This is enabled by a more flexible set of circuits that can handle a wider range of inputs and outputs.
+    Shielded Transfer System:
+    
+    The introduction of a shielded transfer system allows users to move assets within the Tornado Cash Nova system without exposing any information on the public blockchain. This involves complex cryptographic proofs that ensure the integrity of the transfers without revealing transaction details.
+    Layer 2 Rollups:
+    
+    By integrating with zk-rollups, Tornado Cash Nova can batch transactions off-chain and only commit the necessary data on-chain. This reduces gas costs and improves scalability while still maintaining the privacy guarantees provided by zk-SNARKs.
+    Savings Pool Mechanism:
+    
+    The Savings Pool in Tornado Cash Nova uses a combination of zero-knowledge proofs and smart contracts to allow users to maintain their assets in a shielded state even after withdrawal. This is achieved through a mix of commitment schemes and cryptographic accumulators.
+    Summary of Improvements
+    Greater Flexibility: Arbitrary deposit and withdrawal amounts make the system more user-friendly and practical.
+    Improved Privacy: Enhanced mechanisms for maintaining anonymity through shielded transfers and withdrawals.
+    Cost Efficiency: Integration with Layer 2 solutions reduces transaction costs and improves scalability.
+    Better User Experience: Simplified processes and improved interfaces make privacy more accessible to users.
 
-3. In the Part2 directory of this week’s repo you will find a submodule that consists of a forked tornado-nova repo. Follow the README for instructions to install all dependencies and build via yarn.
+
+3. What is the role of the relayers in the Tornado Cash protocols? Why are relayers needed?
+
+4. In the Part2 directory of this week’s repo you will find a submodule that consists of a forked tornado-nova repo. Follow the README for instructions to install all dependencies and build via yarn.
 
     1. Run yarn test and attach a screenshot of all the tests passing to your PDF file. 
 
@@ -84,7 +126,7 @@ clarification 2: the indexing convention of the hashes array is from bottom to t
 
     4. Copy your modified custom.test.js into week2/custom.test.modified.js for submission, so you don’t have to commit the submodule.
 
-4. [bonus] Try out Tornado Classic on Goerli testnet and attach screenshots at deposit and withdrawal in the PDF file.
+5. [bonus] Try out Tornado Classic on Goerli testnet and attach screenshots at deposit and withdrawal in the PDF file.
 
 ## Part 3 Semaphore
 
